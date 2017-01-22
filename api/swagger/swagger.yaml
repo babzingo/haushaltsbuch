@@ -193,7 +193,7 @@ definitions:
       id:
         type: number
       value:
-        type: integer
+        type: string
   GeneralResponse:
     type: object
     properties:

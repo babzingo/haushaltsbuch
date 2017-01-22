@@ -3,6 +3,7 @@
 var SwaggerExpress = require('swagger-express-mw');
 var app = require('express')();
 var basicAuth = require('basic-auth');
+var userAuth = require('./api/controllers/user_auth');
 var db = require('./config/dbneu');
 
 module.exports = app; // for testing
@@ -25,22 +26,24 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
       res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
       return res.sendStatus(401);
     };
-    function isValid(user) {
-
-      return user.name === 'foo' && user.pass === 'bar'
-    }
 
     var user = basicAuth(req);
 
-    if (!user || !user.name || !user.pass) {
-      return unauthorized(res);
-    };
+    //rausfinden wie das in einer anderen js geht!
+    app.use(function(req, res, next) {
+      db.get().query('select * from user '+
+      'where name = ? and password = ?', 
+      [user.name, user.pass], function (err, rows) {
+          if (err || rows.length === 0){
+              console.log(err)
+              unauthorized(res);
+          }
+          console.log(rows)
+          return next();
+      })
+    });
 
-    if (isValid(user)) {
-      return next();
-    } else {
-      return unauthorized(res);
-    };
+   next()
   });
 
   db.connect(db.MODE_PRODUCTION, function(err) {
