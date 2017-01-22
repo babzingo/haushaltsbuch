@@ -1,1 +1,1 @@
-# haushaltsbuch
+# Skeleton project for Swagger
