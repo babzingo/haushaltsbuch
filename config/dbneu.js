@@ -12,7 +12,7 @@ var state = {
   mode: null,
 }
 
-exports.connect = function(mode, done) {
+exports.connect = function(mode, next) {
   state.pool = mysql.createPool({
     host: 'localhost',
     user: 'hhb',
@@ -21,7 +21,7 @@ exports.connect = function(mode, done) {
   })
 
   state.mode = mode
-  done()
+  next()
 }
 
 exports.get = function() {
@@ -30,7 +30,7 @@ exports.get = function() {
 
 exports.fixtures = function(data) {
   var pool = state.pool
-  if (!pool) return done(new Error('Missing database connection.'))
+  if (!pool) return next(new Error('Missing database connection.'))
 
   var names = Object.keys(data.tables)
   async.each(names, function(name, cb) {
@@ -40,14 +40,14 @@ exports.fixtures = function(data) {
 
       pool.query('INSERT INTO ' + name + ' (' + keys.join(',') + ') VALUES (' + values.join(',') + ')', cb)
     }, cb)
-  }, done)
+  }, next)
 }
 
-exports.drop = function(tables, done) {
+exports.drop = function(tables, next) {
   var pool = state.pool
-  if (!pool) return done(new Error('Missing database connection.'))
+  if (!pool) return next(new Error('Missing database connection.'))
 
   async.each(tables, function(name, cb) {
     pool.query('DELETE * FROM ' + name, cb)
-  }, done)
+  }, next)
 }

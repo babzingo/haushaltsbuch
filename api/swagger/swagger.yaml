@@ -17,9 +17,7 @@ consumes:
 # format of the responses to the client (Accepts)
 produces:
   - application/json
-  
 paths:
- 
   /action:
     # binds a128 app logic to a route
     x-swagger-router-controller: action
