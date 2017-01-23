@@ -68,7 +68,7 @@ function getOne(req, res, next) {
         'from action ' +
         'left join category on category.id = action.category ' +
         'left join user userPayed on userPayed.id = action.userPayed ' +
-        'left join user userBought on userBought.id = action.userBought' +
+        'left join user userBought on userBought.id = action.userBought ' +
         'where action.id = ?',
         values: [id],
         nestTables: true
