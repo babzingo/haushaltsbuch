@@ -119,7 +119,82 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /swagger:
+  /action/year/{year}:
+    # our controller name
+    x-swagger-router-controller: action
+    get:
+      operationId: getByYear
+      description: get all actions by year
+      # define the type of response for Success "200" and Error
+      parameters:
+        - name: year
+          type: number
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/ActionList"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /action/month/{year}/{month}:
+    # our controller name
+    x-swagger-router-controller: action
+    get:
+      operationId: getByMonth
+      description: get all actions by month in year
+      # define the type of response for Success "200" and Error
+      parameters:
+        - name: year
+          type: number
+          in: path
+          required: true
+        - name: month
+          type: number
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/ActionList"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /action/day/{year}/{month}/{day}:
+    # our controller name
+    x-swagger-router-controller: action
+    get:
+      operationId: getByDay
+      description: get all actions by day in month in year
+      # define the type of response for Success "200" and Error
+      parameters:
+        - name: year
+          type: number
+          in: path
+          required: true
+        - name: month
+          type: number
+          in: path
+          required: true
+        - name: day
+          type: number
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/ActionList"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger.json:
     x-swagger-pipe: swagger_raw
     
 

@@ -35,6 +35,112 @@ function getAll(req, res, next) {
         res.json({ actions });
     })
 }
+
+//GET /action/year/{year}
+function getByYear(req, res, next) {
+    var params = [req.swagger.params.year.value]
+    var options = {
+        sql: 'select action.id, action.value, action.date, action.interval, ' +
+        'category.id, category.value, ' +
+        'userPayed.id, userPayed.name, ' +
+        'userBought.id, userBought.name ' +
+        'from action ' +
+        'left join category on category.id = action.category ' +
+        'left join user userPayed on userPayed.id = action.userPayed ' +
+        'left join user userBought on userBought.id = action.userBought ' +
+        'where year(action.date) = ?', params, nestTables: true
+    };
+    dbneu.get().query(options, function (err, rows) {
+        if (err) {
+            return next(err)
+        }
+        // console.log(rows)
+        var actions = [];
+        rows.forEach(function (row, index, arr) {
+            row.action.category = row.category
+            row.action.userPayed = row.userPayed
+            row.action.userBought = row.userBought
+            actions.push(row.action);
+        })
+        console.log(actions)
+        //  console.log(actions)
+        //result = 
+        res.json({ actions });
+    })
+}
+
+//GET /action/month/{year}/{month}
+function getByMonth(req, res, next) {
+    var params = [req.swagger.params.year.value,
+    req.swagger.params.month.value]
+    var options = {
+        sql: 'select action.id, action.value, action.date, action.interval, ' +
+        'category.id, category.value, ' +
+        'userPayed.id, userPayed.name, ' +
+        'userBought.id, userBought.name ' +
+        'from action ' +
+        'left join category on category.id = action.category ' +
+        'left join user userPayed on userPayed.id = action.userPayed ' +
+        'left join user userBought on userBought.id = action.userBought ' +
+        'where year(action.date) = ? ' +
+        'and month(action.date) = ?', params, nestTables: true
+    };
+    dbneu.get().query(options, function (err, rows) {
+        if (err) {
+            return next(err)
+        }
+        // console.log(rows)
+        var actions = [];
+        rows.forEach(function (row, index, arr) {
+            row.action.category = row.category
+            row.action.userPayed = row.userPayed
+            row.action.userBought = row.userBought
+            actions.push(row.action);
+        })
+        console.log(actions)
+        //  console.log(actions)
+        //result = 
+        res.json({ actions });
+    })
+}
+
+//GET /action/day/{year}/{month}/{day}
+function getByDay(req, res, next) {
+    var params = [req.swagger.params.year.value,
+    req.swagger.params.month.value,
+    req.swagger.params.day.value]
+    var options = {
+        sql: 'select action.id, action.value, action.date, action.interval, ' +
+        'category.id, category.value, ' +
+        'userPayed.id, userPayed.name, ' +
+        'userBought.id, userBought.name ' +
+        'from action ' +
+        'left join category on category.id = action.category ' +
+        'left join user userPayed on userPayed.id = action.userPayed ' +
+        'left join user userBought on userBought.id = action.userBought ' +
+        'where year(action.date) = ? ' +
+        'and month(action.date) = ? ' +
+        'and day(action.date) = ?', params, nestTables: true
+    };
+    dbneu.get().query(options, function (err, rows) {
+        if (err) {
+            return next(err)
+        }
+        // console.log(rows)
+        var actions = [];
+        rows.forEach(function (row, index, arr) {
+            row.action.category = row.category
+            row.action.userPayed = row.userPayed
+            row.action.userBought = row.userBought
+            actions.push(row.action);
+        })
+        console.log(actions)
+        //  console.log(actions)
+        //result = 
+        res.json({ actions });
+    })
+}
+
 //POST /action operationId
 function save(req, res, next) {
     console.log('wuhu')
